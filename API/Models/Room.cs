@@ -13,4 +13,6 @@ public class Room
 
     public int RoomClassId { get; set; }
     public required RoomClass RoomClass { get; set; }
+
+    public required ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 }

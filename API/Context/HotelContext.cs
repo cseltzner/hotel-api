@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using API.Models.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,4 +19,12 @@ public class HotelContext : IdentityDbContext<AppUser>
     public DbSet<RoomStatus> RoomStatus { get; set; }
     public DbSet<Bed> Beds { get; set; }
     public DbSet<Feature> Features { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        // Seed Roles into database
+        builder.Entity<IdentityRole>().HasData(UserRoleSeed.SeedIdentityRoles());
+    }
 }

@@ -1,9 +1,11 @@
 ﻿using API.Models;
+using API.Models.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Context;
 
-public class HotelContext : DbContext
+public class HotelContext : IdentityDbContext<AppUser>
 {
     public HotelContext(DbContextOptions<HotelContext> contextOptions) : base(contextOptions) {}
 

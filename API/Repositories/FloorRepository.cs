@@ -77,4 +77,14 @@ public class FloorRepository : IFloorRepository
 
         return floor;
     }
+
+    public async Task<bool> FloorExists(string floorNum)
+    {
+        return await _context.Floors.AnyAsync(floor => floor.FloorNumber == floorNum);
+    }
+
+    public async Task<bool> FloorExists(int floorId)
+    {
+        return await _context.Floors.AnyAsync(floor => floor.Id == floorId);
+    }
 }

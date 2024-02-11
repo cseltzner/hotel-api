@@ -11,4 +11,6 @@ public interface IFloorRepository
     public Task<Floor> CreateFloor(CreateFloorDto createFloorDto);
     public Task<Floor?> UpdateFloor(int floorId, CreateFloorDto floorUpdateDto);
     public Task<Floor?> DeleteFloor(int floorId);
+    public Task<bool> FloorExists(string floorNum);
+    public Task<bool> FloorExists(int floorId);
 }

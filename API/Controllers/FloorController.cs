@@ -104,7 +104,7 @@ public class FloorController : ControllerBase
     /// @body    CreateFloorDto                 <br/>
     ///                                         <br/>
     /// @status  201 - returns FloorDto         <br/>
-    /// @status  400 - Floor already exists     <br/>
+    /// @status  409 - Floor already exists     <br/>
     /// </summary>
     [HttpPost]
     // [Authorize(Roles = $"{IdentityRoles.Manager}")]
@@ -113,7 +113,7 @@ public class FloorController : ControllerBase
         // Check if floor is in database
         if (await _floorRepository.FloorExists(createFloorDto.FloorNumber))
         {
-            return StatusCode(400, $"Floor with floor number of {createFloorDto.FloorNumber} already exists.");
+            return StatusCode(409, $"Floor with floor number of {createFloorDto.FloorNumber} already exists.");
         }
 
         var createdFloor = await _floorRepository.CreateFloor(createFloorDto);

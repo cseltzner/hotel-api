@@ -2,6 +2,7 @@
 using API.Identity;
 using API.Interfaces.Repositories;
 using API.Models;
+using API.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
@@ -30,18 +31,21 @@ public class FloorController : ControllerBase
     /// @desc    Get all floors                 <br/>
     /// @access  Public                         <br/>
     ///                                         <br/>
-    /// @query   Soon...                        <br/>
+    /// @query   FloorQuery                     <br/>
     ///                                         <br/>
     /// @status  200 - returns List of FloorDto <br/>
     /// </summary>
     [HttpGet]
-    public async Task<IActionResult> GetFloors()
+    public async Task<IActionResult> GetFloors([FromQuery] FloorQuery query)
     {
-        var floors = _cache.Get<ICollection<Floor>>("floor:all");
+        var floors = _cache.Get<ICollection<Floor>>($"floor:{query.ToCacheKey()}"); // Check cache
+
+        // No cache entry found
         if (floors == null)
         {
-            floors = await _floorRepository.GetFloors();
-            _cache.Set("floor:all", floors, TimeSpan.FromSeconds(60));
+            // Fetch from database
+            floors = await _floorRepository.GetFloors(query);
+            _cache.Set($"floor:{query.ToCacheKey()}", floors, TimeSpan.FromSeconds(10));
         }
 
         var floorDtos = floors.Select(floor => new FloorDto

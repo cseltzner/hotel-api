@@ -6,6 +6,12 @@ Accept: application/json
 
 ###
 
+# @name Get Floors with filtering
+GET {{baseUrl}}/floor?floornumber=2&sortby=floornumber&isdescending=true&pagenumber=1&pagesize=2
+Accept: application/json
+
+###
+
 # @name Get Floor by Id
 GET {{baseUrl}}/floor/1
 Accept: application/json

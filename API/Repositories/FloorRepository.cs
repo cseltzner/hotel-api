@@ -2,6 +2,7 @@
 using API.Dto.Floor;
 using API.Interfaces.Repositories;
 using API.Models;
+using API.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories;
@@ -15,11 +16,35 @@ public class FloorRepository : IFloorRepository
         _context = context;
     }
 
-    public async Task<ICollection<Floor>> GetFloors()
+    public async Task<ICollection<Floor>> GetFloors(FloorQuery query)
     {
-        var floors = await _context.Floors
+        var floors = _context.Floors
+            .AsQueryable();
+
+        // Filter
+        if (!string.IsNullOrWhiteSpace(query.FloorNumber))
+        {
+            floors = floors.Where(floor => floor.FloorNumber == query.FloorNumber);
+        }
+
+        // Sort
+        if (!string.IsNullOrWhiteSpace(query.SortBy))
+        {
+            if (query.SortBy.Equals("FloorNumber", StringComparison.OrdinalIgnoreCase))
+            {
+                floors = query.IsDescending
+                    ? floors.OrderByDescending(floor => floor.FloorNumber)
+                    : floors.OrderBy(floor => floor.FloorNumber);
+            }
+        }
+
+        // Pagination
+        var skipNumber = (query.PageNumber - 1) * query.PageSize;
+
+        return await floors
+            .Skip(skipNumber)
+            .Take(query.PageSize)
             .ToListAsync();
-        return floors;
     }
 
     public async Task<Floor?> GetFloorByFloorId(int floorId)

@@ -1,11 +1,12 @@
 ﻿using API.Dto.Floor;
 using API.Models;
+using API.Queries;
 
 namespace API.Interfaces.Repositories;
 
 public interface IFloorRepository
 {
-    public Task<ICollection<Floor>> GetFloors();
+    public Task<ICollection<Floor>> GetFloors(FloorQuery query);
     public Task<Floor?> GetFloorByFloorId(int floorId);
     public Task<Floor?> GetFloorByFloorNum(string floorNum);
     public Task<Floor> CreateFloor(CreateFloorDto createFloorDto);

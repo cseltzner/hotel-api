@@ -1,0 +1,39 @@
+﻿@baseUrl = http://localhost:8080/api
+
+# @name Get Floors
+GET {{baseUrl}}/floor
+Accept: application/json
+
+###
+
+# @name Get Floor by Id
+GET {{baseUrl}}/floor/1
+Accept: application/json
+
+###
+
+# @name Create new Floor
+POST {{baseUrl}}/floor
+Content-Type: application/json
+
+{
+    "floorNumber": "1"
+}
+
+###
+
+# @name Update Floor
+PUT {{baseUrl}}/floor/1
+Content-Type: application/json
+
+{
+  "floorNumber": "Updated floor number"
+}
+
+###
+
+# @name Delete floor
+DELETE {{baseUrl}}/floor/1
+Accept: application/json
+
+###

@@ -67,7 +67,7 @@ public class FloorController : ControllerBase
     /// @status  404 - Floor not found          <br/>
     /// </summary>
     [HttpGet("{floorId:int}")]
-    public async Task<IActionResult> GetFloorByFloorNum([FromRoute] int floorId)
+    public async Task<IActionResult> GetFloor([FromRoute] int floorId)
     {
         bool needsCacheSet = false;
 
